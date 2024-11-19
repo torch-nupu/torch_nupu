@@ -40,10 +40,9 @@ if __name__ == "__main__":
         cmdclass={
             "build_ext": BuildExtension.with_options(no_python_abi_suffix=True),
         },
-        # entry_points={
-        #     # TODO: support `_autoload`
-        #     "torch.backends": [
-        #         "torch_nupu = torch_nupu:_autoload",
-        #     ],
-        # },
+        entry_points={
+            "torch.backends": [
+                "torch_nupu = torch_nupu:_autoload",
+            ],
+        },
     )

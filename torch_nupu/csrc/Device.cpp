@@ -4,14 +4,12 @@
 
 #include "Device.h"
 
-namespace at {
-namespace detail {
+namespace at::detail {
 // TODO: support device guard
 C10_REGISTER_GUARD_IMPL(
     PrivateUse1,
     c10::impl::NoOpDeviceGuardImpl<DeviceType::PrivateUse1>);
-} // namespace detail
-} // namespace at
+} // namespace at::detail
 
 namespace nupu {
 c10::Device get_nupu_device() {
