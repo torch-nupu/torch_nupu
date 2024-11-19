@@ -108,11 +108,34 @@ at::Tensor& set_nupu(
   return at::cpu::set_(result, storage, storage_offset, size, stride);
 }
 
+at::Tensor _copy_from_nupu(
+    const at::Tensor& self,
+    const at::Tensor& dst,
+    bool non_blocking) {
+  TORCH_CHECK(
+      self.is_cpu() || self.device().type() == c10::DeviceType::PrivateUse1,
+      "only allows copy from cpu -> nupu device.");
+  TORCH_CHECK(
+      dst.is_cpu() || dst.device().type() == c10::DeviceType::PrivateUse1,
+      "only allows copy from cpu -> nupu device.");
+
+  TORCH_CHECK(self.sizes() == dst.sizes());
+  TORCH_CHECK(self.scalar_type() == dst.scalar_type());
+  TORCH_CHECK(self.is_contiguous() && dst.is_contiguous());
+
+  std::memcpy(
+      dst.storage().data_ptr().get(),
+      self.storage().data_ptr().get(),
+      self.storage().nbytes());
+  return dst;
+}
+
 TORCH_LIBRARY_IMPL(aten, PrivateUse1, m) {
   m.impl("empty.memory_format", empty_nupu);
   m.impl("empty_strided", empty_strided_nupu);
   m.impl("as_strided", as_strided_nupu);
   m.impl("set_.source_Storage_storage_offset", set_nupu);
+  m.impl("_copy_from", &_copy_from_nupu);
 }
 
 } // namespace

@@ -3,5 +3,5 @@
 ## build
 
 ```bash
-pip install -e . -vvv
+pip install --no-build-isolation -e . -vvv
 ```
