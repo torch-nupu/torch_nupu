@@ -1,10 +1,8 @@
 #include <ATen/EmptyTensor.h>
-#include <ATen/detail/PrivateUse1HooksInterface.h>
-#include <ATen/ops/as_strided_cpu_dispatch.h>
+#include <ATen/ops/as_strided_native.h>
 #include <ATen/ops/set_cpu_dispatch.h>
 #include <c10/core/Allocator.h>
 #include <c10/core/TensorOptions.h>
-#include <c10/core/impl/alloc_cpu.h>
 #include <c10/util/ArrayRef.h>
 #include <torch/library.h>
 
@@ -15,27 +13,20 @@ namespace {
 struct NupuAllocator final : at::Allocator {
   NupuAllocator() = default;
   at::DataPtr allocate(size_t nbytes) override {
-    void* data = c10::alloc_cpu(nbytes);
-    return {
-        data,
-        data,
-        &ReportAndDelete,
-        at::Device(at::DeviceType::PrivateUse1, 0)};
-  }
-
-  static void ReportAndDelete(void* ptr) {
-    if (!ptr) {
-      return;
-    }
-    c10::free_cpu(ptr);
+    auto* allocator = c10::GetAllocator(at::kXPU);
+    at::DataPtr xpu_data = allocator->allocate(nbytes);
+    xpu_data.unsafe_set_device(at::Device(at::DeviceType::PrivateUse1, 0));
+    return xpu_data;
   }
 
   at::DeleterFnPtr raw_deleter() const override {
-    return &ReportAndDelete;
+    auto* allocator = c10::GetAllocator(at::kXPU);
+    return allocator->raw_deleter();
   }
 
   void copy_data(void* dest, const void* src, std::size_t count) const final {
-    default_copy_data(dest, src, count);
+    auto* allocator = c10::GetAllocator(at::kXPU);
+    return allocator->copy_data(dest, src, count);
   }
 };
 
@@ -95,47 +86,13 @@ at::Tensor as_strided_nupu(
     c10::IntArrayRef size,
     c10::IntArrayRef stride,
     std::optional<int64_t> storage_offset_) {
-  // Metadata-only change so we re-use the cpu impl
-  return at::cpu::as_strided(self, size, stride, storage_offset_);
-}
-
-at::Tensor& set_nupu(
-    at::Tensor& result,
-    at::Storage storage,
-    int64_t storage_offset,
-    c10::IntArrayRef size,
-    c10::IntArrayRef stride) {
-  return at::cpu::set_(result, storage, storage_offset, size, stride);
-}
-
-at::Tensor _copy_from_nupu(
-    const at::Tensor& self,
-    const at::Tensor& dst,
-    bool non_blocking) {
-  TORCH_CHECK(
-      self.is_cpu() || self.device().type() == c10::DeviceType::PrivateUse1,
-      "only allows copy from cpu -> nupu device.");
-  TORCH_CHECK(
-      dst.is_cpu() || dst.device().type() == c10::DeviceType::PrivateUse1,
-      "only allows copy from cpu -> nupu device.");
-
-  TORCH_CHECK(self.sizes() == dst.sizes());
-  TORCH_CHECK(self.scalar_type() == dst.scalar_type());
-  TORCH_CHECK(self.is_contiguous() && dst.is_contiguous());
-
-  std::memcpy(
-      dst.storage().data_ptr().get(),
-      self.storage().data_ptr().get(),
-      self.storage().nbytes());
-  return dst;
+  return at::native::as_strided_tensorimpl(self, size, stride, storage_offset_);
 }
 
 TORCH_LIBRARY_IMPL(aten, PrivateUse1, m) {
   m.impl("empty.memory_format", empty_nupu);
   m.impl("empty_strided", empty_strided_nupu);
   m.impl("as_strided", as_strided_nupu);
-  m.impl("set_.source_Storage_storage_offset", set_nupu);
-  m.impl("_copy_from", &_copy_from_nupu);
 }
 
 } // namespace

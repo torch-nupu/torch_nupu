@@ -3,6 +3,14 @@ import torch
 import torch_nupu._C  # noqa
 
 
+# TODO: make it lazy?
+def _init():
+    torch_nupu._C.nupu_init()
+
+
+_init()
+
+
 # TODO: support `_register_device_module`
 # https://pytorch.org/tutorials/advanced/privateuseone.html#register-new-backend-module-to-pytorch
 class _NupuMod:

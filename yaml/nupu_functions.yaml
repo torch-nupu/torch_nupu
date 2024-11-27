@@ -1,0 +1,8 @@
+# TODO: add a op example
+backend: PrivateUse1
+cpp_namespace: at
+# class_name: TODO
+use_out_as_primary: true
+device_guard: false
+supported:
+  - copy_

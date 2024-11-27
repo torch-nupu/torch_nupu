@@ -1,5 +1,6 @@
-from pathlib import Path
+import os
 
+from pathlib import Path
 from setuptools import find_packages, setup
 
 from torch.utils.cpp_extension import BuildExtension, CppExtension
@@ -12,17 +13,21 @@ CSRS_DIR = ROOT_DIR / "torch_nupu/csrc"
 
 
 if __name__ == "__main__":
-    sources = list(CSRS_DIR.glob("*.cpp"))
-
-    # Note that we always compile with debug info
-    ext_modules = [
-        CppExtension(
-            name="torch_nupu._C",
-            sources=sorted(str(s) for s in sources),
-            include_dirs=[CSRS_DIR],
-            extra_compile_args={"cxx": ["-g", "-Wall", "-Werror"]},
-        )
-    ]
+    if not os.path.exists(f"{ROOT_DIR}/torch_nupu/_C.so"):
+        # TODO: support building using pip
+        sources = list(CSRS_DIR.glob("*.cpp"))
+        # Note that we always compile with debug info
+        ext_modules = [
+            CppExtension(
+                name="torch_nupu._C",
+                sources=sorted(str(s) for s in sources),
+                include_dirs=[CSRS_DIR],
+                extra_compile_args={"cxx": ["-g", "-Wall", "-Werror"]},
+                # TODO: link libtorch_nupu_ops/libtorch_nupu
+            )
+        ]
+    else:
+        ext_modules = []
 
     setup(
         name="torch_nupu",
@@ -30,7 +35,7 @@ if __name__ == "__main__":
         author="nuway.ai",
         description="torch-nupu from nuway.ai",
         packages=find_packages(exclude=("test",)),
-        package_data={"torch_nupu": ["*.dll", "*.dylib", "*.so"]},
+        package_data={"torch_nupu": ["*.dll", "*.dylib", "*.so", "lib/*"]},
         install_requires=[
             "torch",
         ],

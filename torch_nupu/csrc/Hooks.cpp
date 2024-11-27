@@ -1,0 +1,44 @@
+#include <ATen/detail/PrivateUse1HooksInterface.h>
+
+#include <ATen/detail/XPUHooksInterface.h>
+#include <c10/xpu/XPUFunctions.h>
+
+namespace at::detail {
+namespace {
+
+struct NupuHooksArgs : public at::PrivateUse1HooksArgs {};
+
+struct NupuHooksInterface : public at::PrivateUse1HooksInterface {
+  NupuHooksInterface(NupuHooksArgs) {}
+  ~NupuHooksInterface() override = default;
+
+  void initPrivateUse1() const final {
+    // TODO(nupu): rm xpu
+    getXPUHooks().initXPU();
+    const auto device_count = c10::xpu::device_count_ensure_non_zero();
+  }
+};
+
+C10_DECLARE_REGISTRY(
+    PrivateUse1HooksRegistry,
+    NupuHooksInterface,
+    NupuHooksArgs);
+C10_DEFINE_REGISTRY(PrivateUse1HooksRegistry, NupuHooksInterface, NupuHooksArgs)
+
+static at::PrivateUse1HooksInterface* get_nupu_hooks() {
+  static at::PrivateUse1HooksInterface* nupu_hooks;
+  static std::once_flag once;
+  std::call_once(
+      once, [] { nupu_hooks = new NupuHooksInterface(NupuHooksArgs{}); });
+  return nupu_hooks;
+}
+
+int register_hook() {
+  at::RegisterPrivateUse1HooksInterface(get_nupu_hooks());
+  return 0;
+}
+
+static const int _torch_nupu_hooks_flag = register_hook();
+
+} // namespace
+} // namespace at::detail
