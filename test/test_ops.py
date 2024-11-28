@@ -9,11 +9,11 @@ def test_copy():
 
 
 def test_add():
-    a = torch.rand(10, device="cpu").to("nupu")
-    b = torch.rand(10, device="cpu").to("nupu")
-    # `add.Tensor` just return `a` currently
+    a = torch.ones(10, device="cpu").to("nupu")
+    b = torch.ones(10, device="cpu").to("nupu")
+    c_ = torch.ones(10, device="cpu") * 2
     c = a + b
-    assert torch.equal(a.to("cpu"), c.to("cpu"))
+    assert torch.equal(c.to("cpu"), c_)
 
 
 def test_abs():

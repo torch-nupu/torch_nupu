@@ -6,6 +6,9 @@
 
 #include <ATen/native/xpu/sycl/AbsKernel.h>
 #include <ATen/native/xpu/sycl/ActivationLogSigmoidKernels.h>
+#include <ATen/native/xpu/sycl/BinaryKernels.h>
+
+#include <gen_functions/PrivateUse1NativeFunctions.h>
 
 namespace at::native {
 // src/ATen/native/xpu/UnaryOps.cpp
@@ -33,3 +36,26 @@ std::tuple<Tensor, Tensor> log_sigmoid_forward_xpu(const Tensor& input) {
   return std::forward_as_tuple(result, buffer);
 }
 } // namespace at::native
+
+namespace at_nupu {
+
+at::Tensor& NupuNativeFunctions::add_(
+    at::Tensor& self,
+    const at::Tensor& other,
+    const at::Scalar& alpha) {
+  auto iter = at::TensorIterator::binary_op(self, self, other);
+  at::native::xpu::add_kernel(iter, alpha);
+  return self;
+}
+
+at::Tensor& NupuNativeFunctions::add_out(
+    const at::Tensor& self,
+    const at::Tensor& other,
+    const at::Scalar& alpha,
+    at::Tensor& out) {
+  auto iter = at::TensorIterator::binary_op(out, self, other);
+  at::native::xpu::add_kernel(iter, alpha);
+  return out;
+}
+
+} // namespace at_nupu

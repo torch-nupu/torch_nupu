@@ -1,31 +1,9 @@
 #include <ATen/core/TensorBody.h>
-#include <ATen/ops/empty.h>
-#include <ATen/ops/resize_native.h>
 #include <torch/library.h>
 
 #include <ATen/native/CPUFallback.h>
 
-// TODO: mv ops to `src`
-// TODO: rm printf usage
-
 namespace nupu {
-
-namespace {
-
-at::Tensor nupu_add_Tensor(
-    const at::Tensor& self,
-    const at::Tensor& other,
-    const at::Scalar& alpha) {
-  // TODO: add add_Tensor sycl kernel
-  printf(" -- add.Tensor is not supported, just return self");
-  return self;
-}
-
-TORCH_LIBRARY_IMPL(aten, PrivateUse1, m) {
-  m.impl("add.Tensor", &nupu_add_Tensor);
-}
-
-} // namespace
 
 namespace {
 

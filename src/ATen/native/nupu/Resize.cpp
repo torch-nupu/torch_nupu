@@ -5,21 +5,18 @@
 #include <comm/xpu_aten.h>
 #include <torch/library.h>
 
-#include <ATen/native/Resize.h>
-#include "gen_native/ops/set_native.h"
-
 #include <ATen/native/xpu/sycl/ResizeKernel.h>
 
 #include <gen_functions/PrivateUse1NativeFunctions.h>
 
 namespace at {
 
-namespace native {
-const at::Tensor& resize_(
-    const at::Tensor& self,
-    at::IntArrayRef size,
-    ::std::optional<at::MemoryFormat> memory_format);
-}
+// namespace native {
+// const at::Tensor& resize_(
+//     const at::Tensor& self,
+//     at::IntArrayRef size,
+//     ::std::optional<at::MemoryFormat> memory_format = ::std::nullopt);
+// }
 namespace native::xpu {
 
 const Tensor& resize_xpu_(
@@ -86,6 +83,13 @@ TORCH_LIBRARY_IMPL(aten, PrivateUse1, m) {
 
 namespace native {
 
+const at::Tensor& resize_xpu_(
+    const at::Tensor& self,
+    at::IntArrayRef size,
+    c10::optional<at::MemoryFormat> memory_format) {
+  return native::xpu::resize_xpu_(self, size, memory_format);
+}
+
 Tensor& set_storage_xpu_(
     Tensor& self,
     Storage source,
@@ -118,7 +122,11 @@ const at::Tensor& NupuNativeFunctions::resize_(
     const at::Tensor& self,
     at::IntArrayRef size,
     ::std::optional<at::MemoryFormat> memory_format) {
-  return at::native::xpu::resize_xpu_(self, size, memory_format);
+  return at::native::resize_xpu_(self, size, memory_format);
+}
+
+at::Tensor& NupuNativeFunctions::set_(at::Tensor& self) {
+  return at::native::set_xpu_(self);
 }
 
 } // namespace at_nupu

@@ -3,13 +3,15 @@ set(CMAKE_CXX_FLAGS "-fsycl -fsycl-targets=spir64")
 set(ATEN_NUPU_SRCS)
 list(APPEND ATEN_NUPU_SRCS ATen/native/nupu/sycl/AbsKernel.cpp)
 list(APPEND ATEN_NUPU_SRCS ATen/native/nupu/sycl/ActivationLogSigmoidKernels.cpp)
+list(APPEND ATEN_NUPU_SRCS ATen/native/nupu/sycl/BinaryKernels.cpp)
 list(APPEND ATEN_NUPU_SRCS ATen/native/nupu/sycl/CopyKernel.cpp)
 list(APPEND ATEN_NUPU_SRCS ATen/native/nupu/sycl/ResizeKernel.cpp)
 list(APPEND ATEN_NUPU_SRCS ATen/native/nupu/sycl/UnaryComplexKernels.cpp)
 
 list(APPEND ATEN_NUPU_SRCS ATen/native/nupu/Copy.cpp)
-list(APPEND ATEN_NUPU_SRCS ATen/native/nupu/PoneOps.cpp)
 list(APPEND ATEN_NUPU_SRCS ATen/native/nupu/Resize.cpp)
+
+list(APPEND ATEN_NUPU_SRCS ATen/native/nupu/P1Ops.cpp)
 
 # `torchgen.gen`
 list(APPEND ATEN_NUPU_SRCS gen_native/RegisterPrivateUse1.cpp)

@@ -17,7 +17,7 @@
 
 #include <ATen/ops/empty_like.h>
 
-#include <torch/library.h>
+#include <gen_functions/PrivateUse1NativeFunctions.h>
 
 using namespace at;
 using namespace at::xpu;
@@ -315,8 +315,13 @@ void _copy_xpu(TensorIterator& iter, bool non_blocking) {
 
 } // namespace at
 
+namespace at_nupu {
+
 namespace {
-at::Tensor& copy_(at::Tensor& self, const at::Tensor& src, bool non_blocking) {
+at::Tensor& copy_xpu(
+    at::Tensor& self,
+    const at::Tensor& src,
+    bool non_blocking) {
   auto iter = TensorIteratorConfig()
                   .add_output(self)
                   .add_const_input(src)
@@ -327,7 +332,13 @@ at::Tensor& copy_(at::Tensor& self, const at::Tensor& src, bool non_blocking) {
   native::xpu::_copy_xpu(iter, non_blocking);
   return self;
 }
-TORCH_LIBRARY_IMPL(aten, PrivateUse1, m) {
-  m.impl("copy_", copy_);
-}
 } // namespace
+
+at::Tensor& NupuNativeFunctions::copy_(
+    at::Tensor& self,
+    const at::Tensor& src,
+    bool non_blocking) {
+  return copy_xpu(self, src, non_blocking);
+}
+
+} // namespace at_nupu
