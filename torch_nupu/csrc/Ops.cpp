@@ -42,46 +42,4 @@ TORCH_LIBRARY_IMPL(_, PrivateUse1, m) {
 
 } // namespace
 
-namespace {
-
-// TODO: support _copy_from_and_resize
-at::Tensor _copy_from_and_resize(
-    const at::Tensor& self,
-    const at::Tensor& dst) {
-  printf(" -- _copy_from_and_resize \n");
-  // TODO: support `resize`
-  dst.copy_(self);
-  return dst;
-}
-
-// TODO: support _copy_from
-at::Tensor _copy_from(
-    const at::Tensor& self,
-    const at::Tensor& dst,
-    bool non_blocking) {
-  // dst.resize_as_(self);
-  return const_cast<at::Tensor&>(dst.copy_(self, non_blocking));
-}
-
-// TODO: support `resize_`
-const at::Tensor& resize_(
-    const at::Tensor& self,
-    at::IntArrayRef size,
-    std::optional<at::MemoryFormat> optional_memory_format) {
-  return self;
-}
-
-// TODO: support copy_
-at::Tensor& copy_(at::Tensor& self, const at::Tensor& src, bool non_blocking) {
-  return self;
-}
-
-TORCH_LIBRARY_IMPL(aten, PrivateUse1, m) {
-  m.impl("_copy_from_and_resize", _copy_from_and_resize);
-  m.impl("_copy_from", _copy_from);
-  m.impl("copy_", copy_);
-  m.impl("resize_", resize_);
-}
-
-} // namespace
 } // namespace nupu

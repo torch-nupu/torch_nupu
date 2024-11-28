@@ -15,7 +15,6 @@ struct NupuHooksInterface : public at::PrivateUse1HooksInterface {
   void initPrivateUse1() const final {
     // TODO(nupu): rm xpu
     getXPUHooks().initXPU();
-    const auto device_count = c10::xpu::device_count_ensure_non_zero();
   }
 };
 

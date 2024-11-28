@@ -27,3 +27,10 @@
   python_module: nn
   dispatch:
     PrivateUse1: log_sigmoid_forward_xpu
+
+- func: set_(Tensor(a!) self) -> Tensor(a!)
+  variants: method
+  dispatch:
+    PrivateUse1: set_xpu_
+  autogen: set, set.out
+  tags: inplace_view

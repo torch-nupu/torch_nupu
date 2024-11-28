@@ -5,8 +5,7 @@ def test_copy():
     a = torch.rand(10, device="cpu")
     b = a.to("nupu").to("cpu")
     # b = a.to("privateuseone").to("cpu")
-    # TODO: fix TODOs in torch_nupu/csrc/Ops.cpp
-    # assert torch.equal(a, b)
+    assert torch.equal(a, b)
 
 
 def test_add():
@@ -14,8 +13,7 @@ def test_add():
     b = torch.rand(10, device="cpu").to("nupu")
     # `add.Tensor` just return `a` currently
     c = a + b
-    # TODO: fix TODOs in torch_nupu/csrc/Ops.cpp
-    # assert torch.equal(a.to("cpu"), c.to("cpu"))
+    assert torch.equal(a.to("cpu"), c.to("cpu"))
 
 
 def test_abs():
