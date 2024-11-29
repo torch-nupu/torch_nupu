@@ -5,6 +5,12 @@ project(torch_nupu CXX C)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
+find_package(SYCLToolkit REQUIRED)
+if(NOT SYCL_FOUND)
+  message(FATAL_ERROR "SYCLToolkit is not found.")
+endif()
+
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(pybind11 CONFIG)
 
