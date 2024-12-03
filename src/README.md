@@ -15,6 +15,8 @@ git submodule update --remote pytorch
 
 ## dir mapping
 
+`torch_nupu/csrc/xpu` - `pytorch/torch/csrc/xpu`
+
 `src/c10/nupu` - `pytorch/c10/xpu`
 `src/ATen/nupu` - `pytorch/aten/src/ATen/xpu`
 
@@ -28,6 +30,8 @@ when using VSCode, install ext
 https://marketplace.visualstudio.com/items?itemName=moshfeu.compare-folders
 
 ```bash
+COMPARE_FOLDERS=DIFF code torch_nupu/csrc/xpu pytorch/torch/csrc/xpu
+
 COMPARE_FOLDERS=DIFF code src/c10/nupu pytorch/c10/xpu
 COMPARE_FOLDERS=DIFF code src/ATen/nupu pytorch/aten/src/ATen/xpu
 
