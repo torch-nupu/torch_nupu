@@ -3,8 +3,9 @@
 #include <torch/csrc/THP.h>
 #include <torch/csrc/utils/pybind.h>
 #include <torch/csrc/utils/python_numbers.h>
-#include <torch/csrc/xpu/Module.h>
-#include <torch/csrc/xpu/Stream.h>
+
+#include "Module.h"
+#include "Stream.h"
 
 #include <structmember.h>
 

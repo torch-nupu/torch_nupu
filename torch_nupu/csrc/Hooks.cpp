@@ -12,9 +12,9 @@ struct NupuHooksInterface : public at::PrivateUse1HooksInterface {
   NupuHooksInterface(NupuHooksArgs) {}
   ~NupuHooksInterface() override = default;
 
-  void initPrivateUse1() const final {
+  void init() const final {
     // TODO(nupu): rm xpu
-    getXPUHooks().initXPU();
+    getXPUHooks().init();
   }
 };
 

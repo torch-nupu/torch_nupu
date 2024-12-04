@@ -10,6 +10,8 @@ find_package(SYCLToolkit REQUIRED)
 if(NOT SYCL_FOUND)
   message(FATAL_ERROR "SYCLToolkit is not found.")
 endif()
+# SYCL_COMPILER_VERSION > `20250000`
+add_definitions("-DSYCL_COMPILER_VERSION=20990000")
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(pybind11 CONFIG)
