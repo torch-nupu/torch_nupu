@@ -11,8 +11,7 @@
         "CMAKE_EXPORT_COMPILE_COMMANDS": true,
         "CMAKE_C_COMPILER": "/usr/bin/clang",
         "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
-        "CMAKE_LINKER_TYPE": "LLD",
-        "CMAKE_INSTALL_RPATH_USE_LINK_PATH": true
+        "CMAKE_LINKER_TYPE": "LLD"
       }
     },
     {

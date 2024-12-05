@@ -23,7 +23,7 @@ if __name__ == "__main__":
                 sources=sorted(str(s) for s in sources),
                 include_dirs=[CSRS_DIR],
                 extra_compile_args={"cxx": ["-g", "-Wall", "-Werror"]},
-                # TODO: link libtorch_nupu_ops/libtorch_nupu
+                # TODO: link libtorch_nupu
             )
         ]
     else:

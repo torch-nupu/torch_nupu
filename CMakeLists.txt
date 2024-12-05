@@ -5,12 +5,18 @@ project(torch_nupu CXX C)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# TODO: can we pack libsycl.so into wheel ?
+set(RPATH_ORIGIN $ORIGIN)
+set(CMAKE_INSTALL_RPATH "${RPATH_ORIGIN}")
+
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
 find_package(SYCLToolkit REQUIRED)
 if(NOT SYCL_FOUND)
   message(FATAL_ERROR "SYCLToolkit is not found.")
 endif()
+message("SYCL_LIBRARY: ${SYCL_LIBRARY}")
 # SYCL_COMPILER_VERSION > `20250000`
+set(SYCL_COMPILER_VERSION 20990000)
 add_definitions("-DSYCL_COMPILER_VERSION=20990000")
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)

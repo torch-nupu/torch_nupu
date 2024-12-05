@@ -27,15 +27,16 @@ list(APPEND ATEN_NUPU_SRCS gen_native/RegisterPrivateUse1.cpp)
 # `torchgen.gen_backend_stubs`
 list(APPEND ATEN_NUPU_SRCS gen_functions/RegisterPrivateUse1.cpp)
 
-add_library(torch_nupu_ops SHARED ${ATEN_NUPU_SRCS})
+add_library(torch_nupu SHARED ${ATEN_NUPU_SRCS})
 
 # TODO(nupu): can we rm it?
-target_compile_definitions(torch_nupu_ops PRIVATE "-DC10_USING_CUSTOM_GENERATED_MACROS")
+target_compile_definitions(torch_nupu PRIVATE "-DC10_USING_CUSTOM_GENERATED_MACROS")
 
-target_include_directories(torch_nupu_ops PRIVATE ${SYCL_INCLUDE_DIR})
-target_include_directories(torch_nupu_ops PRIVATE ${TORCH_INCLUDE_DIRS})
-target_include_directories(torch_nupu_ops PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(torch_nupu_ops ${TORCH_LIBRARY})
-target_link_libraries(torch_nupu_ops c10_nupu)
+target_include_directories(torch_nupu PRIVATE ${SYCL_INCLUDE_DIR})
+target_include_directories(torch_nupu PRIVATE ${TORCH_INCLUDE_DIRS})
+target_include_directories(torch_nupu PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(torch_nupu ${TORCH_LIBRARY})
+target_link_libraries(torch_nupu ${SYCL_LIBRARY})
+target_link_libraries(torch_nupu c10_nupu)
 
-install(TARGETS torch_nupu_ops)
+install(TARGETS torch_nupu)

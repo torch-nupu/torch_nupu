@@ -15,7 +15,7 @@ static std::vector<PyMethodDef> methods;
 
 namespace {
 void nupu_init() {
-  at::globalContext().lazyInitPrivateUse1();
+  at::globalContext().lazyInitDevice(at::kPrivateUse1);
 }
 } // namespace
 
