@@ -1,7 +1,7 @@
-import torch
+from __future__ import annotations
 
+import torch
 from torch._dynamo.device_interface import DeviceInterface
-from torch._inductor.runtime.hints import DeviceProperties
 
 # TODO: support more API
 
@@ -56,8 +56,6 @@ class NupuDeviceInterface(DeviceInterface):
 
     @staticmethod
     def get_device_properties(device=None):
-        if isinstance(device, torch.device):
-            device = device.index
         return torch.nupu.get_device_properties(device)
 
     @staticmethod

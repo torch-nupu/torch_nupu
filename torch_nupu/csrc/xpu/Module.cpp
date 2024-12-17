@@ -339,6 +339,8 @@ static void registerXpuDeviceProperties(PyObject* module) {
   THXP_FORALL_DEVICE_PROPERTIES(DEFINE_READONLY_MEMBER)
       .def_readonly("total_memory", &DeviceProp::global_mem_size)
       .def_property_readonly("gpu_subslice_count", gpu_subslice_count)
+      // NOTE: align with cuda prop
+      .def_property_readonly("multi_processor_count", gpu_subslice_count)
 #if SYCL_COMPILER_VERSION >= 20250000
       .def_property_readonly("architecture", get_device_architecture)
 #endif

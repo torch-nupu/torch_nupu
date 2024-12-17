@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 import importlib
 
 import pytest
 import torch
-
 
 triton_nupu_not_found = True
 spec = importlib.util.find_spec("triton")

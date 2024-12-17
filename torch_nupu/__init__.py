@@ -1,20 +1,20 @@
-import torch
+from __future__ import annotations
 
+import torch
+from torch._dynamo.device_interface import register_interface_for_device
 from torch._inductor.codegen.common import (
     register_backend_for_device,
     register_device_op_overrides,
 )
-from torch_nupu._nupu_codegen import (
-    NupuWrapperCodegen,
-    NupuScheduling,
-    NupuDeviceOpOverrides,
-)
-from torch_nupu._nupu_device_interface import NupuDeviceInterface
-from torch._dynamo.device_interface import register_interface_for_device
 
 import torch_nupu._C  # noqa
-
 import torch_nupu._nupu as _NupuMod
+from torch_nupu._nupu_codegen import (
+    NupuDeviceOpOverrides,
+    NupuScheduling,
+    NupuWrapperCodegen,
+)
+from torch_nupu._nupu_device_interface import NupuDeviceInterface
 
 # TODO: mv to cpp side
 torch.utils.rename_privateuse1_backend("nupu")

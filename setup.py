@@ -1,10 +1,10 @@
+from __future__ import annotations
+
 import os
-
 from pathlib import Path
+
 from setuptools import find_packages, setup
-
 from torch.utils.cpp_extension import BuildExtension, CppExtension
-
 
 # TODO: mv to project.toml
 

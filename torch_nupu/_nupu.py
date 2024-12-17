@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from functools import lru_cache
 from typing import Any
-import torch_nupu._C  # noqa
 
+import torch_nupu._C  # noqa
 
 # TODO: support torch.xpu.* for triton-xpu usage
 
@@ -39,4 +41,6 @@ def get_device_properties(device=None):
     if device is None:
         return torch_nupu._C._get_device_properties(current_device())
     else:
+        if not isinstance(device, int | str):
+            device = device.index
         return torch_nupu._C._get_device_properties(device)

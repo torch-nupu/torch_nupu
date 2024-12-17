@@ -1,7 +1,8 @@
-from torch._inductor.codegen.wrapper import PythonWrapperCodegen
+from __future__ import annotations
+
 from torch._inductor.codegen.common import DeviceOpOverrides
 from torch._inductor.codegen.triton import TritonScheduling
-
+from torch._inductor.codegen.wrapper import PythonWrapperCodegen
 
 # TODO: support more API
 
