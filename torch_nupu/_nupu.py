@@ -36,4 +36,7 @@ def get_device_capability(device=None) -> dict[str, Any]:
 
 
 def get_device_properties(device=None):
-    return torch_nupu._C._get_device_properties(device)
+    if device is None:
+        return torch_nupu._C._get_device_properties(current_device())
+    else:
+        return torch_nupu._C._get_device_properties(device)
