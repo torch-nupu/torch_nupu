@@ -1,6 +1,20 @@
 [build-system]
-requires = ["setuptools", "wheel", "torch"]
-build-backend = "setuptools.build_meta:__legacy__"
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "torch_nupu"
+dynamic = ["version"]
+authors = [{ name = "nuway.ai", email = "dev@nuway.ai" }]
+description = "torch-nupu from nuway.ai"
+# target os: ubuntu-22.04+
+requires-python = ">=3.10"
+# NOTE: torch/triton require manual installation,
+# do not add torch/triton into dependencies until supporting a local pypi
+dependencies = []
+
+[tool.setuptools_scm]
+version_file = "torch_nupu/_version.py"
 
 [tool.ruff]
 target-version = "py310"

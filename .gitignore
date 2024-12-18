@@ -172,3 +172,5 @@ yaml/templates
 yaml/gen_native/
 src/gen_native/
 src/gen_functions/
+
+torch_nupu/_version.py

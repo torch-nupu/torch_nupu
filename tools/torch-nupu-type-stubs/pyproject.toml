@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+# TODO: mv to torch_nupu ?
+[project]
+name = "torch-nupu-type-stubs"
+version = "0.1"
+authors = [{ name = "nuway.ai", email = "dev@nuway.ai" }]
+description = "torch.nupu stub"
+
+[tool.setuptools.package-dir]
+"torch-stubs" = "torch-stubs"
