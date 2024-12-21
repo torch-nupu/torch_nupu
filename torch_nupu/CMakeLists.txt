@@ -2,11 +2,6 @@ set(TORCH_NUPU_SRCS)
 list(APPEND TORCH_NUPU_SRCS csrc/stub.c)
 list(APPEND TORCH_NUPU_SRCS csrc/_C.cpp)
 
-list(APPEND TORCH_NUPU_SRCS csrc/Device.cpp)
-list(APPEND TORCH_NUPU_SRCS csrc/Hooks.cpp)
-list(APPEND TORCH_NUPU_SRCS csrc/Allocator.cpp)
-list(APPEND TORCH_NUPU_SRCS csrc/Ops.cpp)
-
 list(APPEND TORCH_NUPU_SRCS csrc/xpu/Event.cpp)
 list(APPEND TORCH_NUPU_SRCS csrc/xpu/Module.cpp)
 list(APPEND TORCH_NUPU_SRCS csrc/xpu/Stream.cpp)

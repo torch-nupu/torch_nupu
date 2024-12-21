@@ -6,8 +6,6 @@
 #include "xpu/Module.h"
 #include "xpu/Stream.h"
 
-#include "Device.h"
-
 namespace py = pybind11;
 
 static PyObject* module;
@@ -32,7 +30,6 @@ PyObject* initNupuModule() {
 
   auto m = py::reinterpret_borrow<py::module>(module);
   m.def("nupu_init", &nupu_init, "torch_nupu init");
-  m.def("nupu_device", &nupu::get_nupu_device, "get nupu device object");
 
   return module;
 }

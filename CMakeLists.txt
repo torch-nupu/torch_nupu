@@ -9,6 +9,8 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(RPATH_ORIGIN $ORIGIN)
 set(CMAKE_INSTALL_RPATH "${RPATH_ORIGIN}")
 
+option(WITH_TEST "building with cpp test" TRUE)
+
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
 find_package(SYCLToolkit REQUIRED)
 if(NOT SYCL_FOUND)
@@ -39,3 +41,7 @@ message("TORCH_INCLUDE_DIRS: ${TORCH_INCLUDE_DIRS}")
 
 add_subdirectory(src)
 add_subdirectory(torch_nupu)
+
+if(WITH_TEST)
+  add_subdirectory(test/cpp)
+endif()

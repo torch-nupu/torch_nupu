@@ -174,3 +174,5 @@ src/gen_native/
 src/gen_functions/
 
 torch_nupu/_version.py
+torch_nupu/bin
+torch_nupu/lib

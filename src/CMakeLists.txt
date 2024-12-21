@@ -4,6 +4,11 @@ add_subdirectory(c10/nupu)
 
 set(ATEN_NUPU_SRCS)
 
+list(APPEND ATEN_NUPU_SRCS nupu/Allocator.cpp)
+list(APPEND ATEN_NUPU_SRCS nupu/Device.cpp)
+list(APPEND ATEN_NUPU_SRCS nupu/Hooks.cpp)
+list(APPEND ATEN_NUPU_SRCS nupu/Ops.cpp)
+
 # TODO: split into multi libs?
 list(APPEND ATEN_NUPU_SRCS ATen/nupu/detail/XPUHooks.cpp)
 list(APPEND ATEN_NUPU_SRCS ATen/nupu/CachingHostAllocator.cpp)
