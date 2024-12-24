@@ -1,11 +1,28 @@
 from __future__ import annotations
 
+import threading
 from functools import lru_cache
 from typing import Any
 
 import torch_nupu._C  # noqa
 
-# TODO: support torch.xpu.* for triton-xpu usage
+_initialized = False
+_initialization_lock = threading.Lock()
+
+# TODO: support more APIs
+# TODO: support `_is_in_bad_fork`
+
+
+def init():
+    _lazy_init()
+
+
+def _lazy_init():
+    global _initialized
+    with _initialization_lock:
+        if not _initialized:
+            torch_nupu._C.nupu_init()
+            _initialized = True
 
 
 def is_available():

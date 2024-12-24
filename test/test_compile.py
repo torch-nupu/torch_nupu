@@ -21,6 +21,16 @@ def test_op_add():
     assert torch.equal(res0, ref0)
 
 
+@pytest.mark.skipif(triton_nupu_not_found, reason="")
+def test_op_silu():
+    arg0 = torch.ones((3, 3))
+    arg1 = arg0.to("nupu")
+    op = torch.compile(torch.nn.SiLU())
+    res0 = op(arg1)
+    ref0 = torch.nn.functional.silu(arg0)
+    assert torch.equal(res0, ref0)
+
+
 @pytest.mark.xfail(
     reason="it requires OCK supporting `OpCapability GroupNonUniformClustered`"
 )

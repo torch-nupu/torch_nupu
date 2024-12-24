@@ -176,3 +176,6 @@ src/gen_functions/
 torch_nupu/_version.py
 torch_nupu/bin
 torch_nupu/lib
+
+# TODO: support autogen type-hint
+torch_nupu/_C.pyi

@@ -31,14 +31,6 @@ register_device_op_overrides("nupu", NupuDeviceOpOverrides())
 register_interface_for_device("nupu", NupuDeviceInterface)
 
 
-# TODO: make it lazy?
-def _init():
-    torch_nupu._C.nupu_init()
-
-
-_init()
-
-
 # https://pytorch.org/tutorials/prototype/python_extension_autoload.html
 def _autoload():
     pass
