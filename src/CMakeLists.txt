@@ -1,5 +1,5 @@
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl -fsycl-targets=spir64")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --offload-new-driver --offload-link")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --offload-new-driver")
 
 add_subdirectory(c10/nupu)
 

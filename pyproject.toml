@@ -15,6 +15,8 @@ dependencies = []
 
 [tool.setuptools_scm]
 version_file = "torch_nupu/_version.py"
+# only parse tag: `v*[0-9]*`, skip `nightly_**` and other tags
+git_describe_command = "git describe --dirty --tags --long --match 'v*[0-9]*'"
 
 [tool.ruff]
 target-version = "py310"

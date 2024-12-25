@@ -13,6 +13,7 @@ static std::vector<PyMethodDef> methods;
 
 namespace {
 void nupu_init() {
+  C10_LOG_API_USAGE_ONCE("torch_nupu._C.nupu_init");
   at::globalContext().lazyInitDevice(at::kPrivateUse1);
 }
 } // namespace

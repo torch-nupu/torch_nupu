@@ -7,7 +7,6 @@ from torch._inductor.codegen.common import (
     register_device_op_overrides,
 )
 
-import torch_nupu._C  # noqa
 import torch_nupu._nupu as _NupuMod
 from torch_nupu._nupu_codegen import (
     NupuDeviceOpOverrides,
