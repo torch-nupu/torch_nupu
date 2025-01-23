@@ -5,8 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "torch_nupu"
 dynamic = ["version"]
-authors = [{ name = "nuway.ai", email = "dev@nuway.ai" }]
-description = "torch-nupu from nuway.ai"
+authors = [{ name = "torch-nupu" }]
+description = "torch-nupu"
 # target os: ubuntu-22.04+
 requires-python = ">=3.10"
 # NOTE: torch/triton require manual installation,
