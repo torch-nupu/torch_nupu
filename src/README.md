@@ -1,10 +1,10 @@
 # notes
 
 torch-xpu-ops
-https://github.com/nuway-ai/torch-xpu-ops/tree/dev
+https://github.com/torch-nupu/torch-xpu-ops/tree/dev
 
 pytorch
-https://github.com/nuway-ai/pytorch/tree/dev
+https://github.com/torch-nupu/pytorch/tree/dev
 
 NOTE: Always update sub modules when updating from upstream
 
