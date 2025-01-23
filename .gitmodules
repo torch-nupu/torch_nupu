@@ -1,8 +1,8 @@
 [submodule "torch-xpu-ops"]
 	path = torch-xpu-ops
-	url = git@github.com:nuway-ai/torch-xpu-ops.git
+	url = git@github.com:torch-nupu/torch-xpu-ops.git
 	branch = dev
 [submodule "pytorch"]
 	path = pytorch
-	url = git@github.com:nuway-ai/pytorch.git
+	url = git@github.com:torch-nupu/pytorch.git
 	branch = dev
