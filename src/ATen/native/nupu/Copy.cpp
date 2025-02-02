@@ -31,10 +31,11 @@ static bool copy_requires_temporaries(TensorIterator& iter, bool p2p_enabled) {
 
   if (dst_device == src_device) {
     // We never require temporaries for copies on the same GPU.
-    TORCH_INTERNAL_ASSERT(dst_device.is_xpu() && src_device.is_xpu());
+    TORCH_INTERNAL_ASSERT(
+        dst_device.is_privateuseone() && src_device.is_privateuseone());
     return false;
   } else if (
-      dst_device.is_xpu() && src_device.is_xpu() &&
+      dst_device.is_privateuseone() && src_device.is_privateuseone() &&
       (dst_device != src_device)) {
     // Across device copies need temporaries if p2p not enabled
     return !p2p_enabled;
@@ -44,7 +45,7 @@ static bool copy_requires_temporaries(TensorIterator& iter, bool p2p_enabled) {
   if (same_dtype && iter.is_contiguous()) {
     // Contiguous same-dtype copies can always use memcpyAsync
     return false;
-  } else if (dst_device.is_xpu() && src_device.is_xpu()) {
+  } else if (dst_device.is_privateuseone() && src_device.is_privateuseone()) {
     // Copies between GPUs can use the copy kernel if P2P is supported
     return !p2p_enabled;
   } else {
@@ -224,7 +225,7 @@ void _copy_xpu(TensorIterator& iter, bool non_blocking) {
   }
 
   // Copy on GPU (or between GPUs)
-  if (dst_device.is_xpu() && src_device.is_xpu()) {
+  if (dst_device.is_privateuseone() && src_device.is_privateuseone()) {
     copy_device_to_device(iter, non_blocking, p2p_enabled);
     return;
   }

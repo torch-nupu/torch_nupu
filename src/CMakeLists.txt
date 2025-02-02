@@ -28,8 +28,6 @@ list(APPEND ATEN_NUPU_SRCS ATen/native/nupu/Resize.cpp)
 
 list(APPEND ATEN_NUPU_SRCS ATen/native/nupu/P1Ops.cpp)
 
-# `torchgen.gen`
-list(APPEND ATEN_NUPU_SRCS gen_native/RegisterPrivateUse1.cpp)
 # `torchgen.gen_backend_stubs`
 list(APPEND ATEN_NUPU_SRCS gen_functions/RegisterPrivateUse1.cpp)
 

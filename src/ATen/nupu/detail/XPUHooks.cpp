@@ -24,7 +24,8 @@ std::string XPUHooks::showConfig() const {
 }
 
 int32_t XPUHooks::getGlobalIdxFromDevice(const at::Device& device) const {
-  TORCH_CHECK(device.is_xpu(), "Only the XPU device type is expected.");
+  TORCH_CHECK(
+      device.is_privateuseone(), "Only the XPU device type is expected.");
 #if defined(_WIN32) && SYCL_COMPILER_VERSION < 20250000
   TORCH_CHECK_NOT_IMPLEMENTED(
       false,

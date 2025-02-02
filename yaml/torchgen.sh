@@ -2,37 +2,17 @@
 
 ################################################################################
 
-TORCH_PATH=$(python -c "import torch; from pathlib import Path; print(Path(torch.__file__).parent, end='')")
-echo "TORCH_PATH: $TORCH_PATH"
+TORCHGEN_PATH=$(python -c "import torchgen; from pathlib import Path; print(Path(torchgen.__file__).parent, end='')")
+echo "TORCHGEN_PATH: $TORCHGEN_PATH"
 
-# TODO: use `site-packages/torchgen/packaged/ATen/templates` for torch release
-ln -s $TORCH_PATH/../aten/src/ATen/templates $PWD/yaml
-
-################################################################################
-
-args=(
-  -m torchgen.gen
-  --source-path yaml
-  --install_dir src/gen_native
-  # TODO: support aoti
-  --aoti_install_dir yaml
-  --per-operator-headers
-  --backend_whitelist=PrivateUse1
-)
-python "${args[@]}"
-
-# add extra include
-rm -f src/gen_native/ops_privateuse1.h
-find src/gen_native/ops/*_native.h -printf "%f\n" | xargs -d "\n" -I{} echo "#include \"ops/{}\"" >>src/gen_native/ops_privateuse1.h
-sed -i -e \
-  '0,/<ATen\/ops/s//"ops_privateuse1.h"\n#include <ATen\/ops/' \
-  src/gen_native/RegisterPrivateUse1.cpp
+ln -s $TORCHGEN_PATH/packaged/ATen/templates $PWD/yaml
+ln -s $TORCHGEN_PATH/packaged/ATen/native $PWD/yaml
 
 ################################################################################
 
 pushd src
 args=(
-  -m torchgen.gen_backend_stubs
+  $PWD/../yaml/gen_nupu_functions.py
   --source_yaml ../yaml/nupu_functions.yaml
   --output_dir gen_functions
 )
