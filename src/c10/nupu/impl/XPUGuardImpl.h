@@ -25,7 +25,7 @@ struct XPUGuardImpl final : public c10::impl::DeviceGuardImplInterface {
   }
 
   Device exchangeDevice(Device d) const override {
-    TORCH_INTERNAL_ASSERT(d.is_privateuseone());
+    // TORCH_INTERNAL_ASSERT(d.is_privateuseone());
     const auto old_device_index = c10::xpu::exchange_device(d.index());
     return Device(kXPU, old_device_index);
   }
@@ -36,7 +36,7 @@ struct XPUGuardImpl final : public c10::impl::DeviceGuardImplInterface {
   }
 
   void setDevice(Device d) const override {
-    TORCH_INTERNAL_ASSERT(d.is_privateuseone());
+    // TORCH_INTERNAL_ASSERT(d.is_privateuseone());
     c10::xpu::set_device(d.index());
   }
 

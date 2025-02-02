@@ -58,4 +58,12 @@ at::Tensor& NupuNativeFunctions::add_out(
   return out;
 }
 
+at::Tensor& NupuNativeFunctions::abs_out(
+    const at::Tensor& self,
+    at::Tensor& out) {
+  auto iter = at::TensorIterator::unary_op(out, self);
+  at::native::xpu::abs_kernel(iter);
+  return out;
+}
+
 } // namespace at_nupu
