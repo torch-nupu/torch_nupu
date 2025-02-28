@@ -9,3 +9,4 @@ supported:
   - set_
   - add_.Tensor
   - add.out
+  - abs.out

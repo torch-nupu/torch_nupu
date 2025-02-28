@@ -56,7 +56,7 @@ const Tensor& resize_as_(
 
 Tensor _copy_from_and_resize(const at::Tensor& self, const at::Tensor& dst) {
   // Dispatch explicitly to bypass redispatching in ATen CPU fallback routine.
-  if (dst.is_xpu()) {
+  if (dst.is_privateuseone()) {
     resize_xpu_(dst, self.sizes(), c10::nullopt);
   } else {
     at::native::resize_(dst, self.sizes());

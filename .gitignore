@@ -168,6 +168,7 @@ cython_debug/
 compile_commands.json
 CMakeUserPresets.json
 
+yaml/native
 yaml/templates
 yaml/gen_native/
 src/gen_native/

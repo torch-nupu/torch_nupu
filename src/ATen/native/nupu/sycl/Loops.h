@@ -599,7 +599,7 @@ template <typename func_t>
 void gpu_kernel_nocast(TensorIteratorBase& iter, const func_t& f) {
   for (int arg = 0; arg < iter.ntensors(); arg++) {
     TORCH_INTERNAL_ASSERT(
-        iter.device(arg).is_xpu(),
+        iter.device(arg).is_privateuseone(),
         "argument ",
         arg,
         ": expected an XPU device but found ",
@@ -624,7 +624,7 @@ template <typename func_t>
 void gpu_kernel(TensorIteratorBase& iter, const func_t& f) {
   for (int arg = 0; arg < iter.ntensors(); arg++) {
     TORCH_INTERNAL_ASSERT(
-        iter.device(arg).is_xpu(),
+        iter.device(arg).is_privateuseone(),
         "argument ",
         arg,
         ": expected an XPU device but found ",
@@ -803,7 +803,7 @@ void gpu_kernel_multiple_outputs_impl(
 template <typename func_t>
 void gpu_kernel_multiple_outputs(TensorIteratorBase& iter, const func_t& f) {
   for (int arg = 0; arg < iter.ntensors(); arg++) {
-    TORCH_INTERNAL_ASSERT(iter.device(arg).is_xpu());
+    TORCH_INTERNAL_ASSERT(iter.device(arg).is_privateuseone());
   }
 
   if (iter.numel() == 0) {

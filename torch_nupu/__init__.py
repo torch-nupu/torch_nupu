@@ -1,5 +1,11 @@
 from __future__ import annotations
 
+
+# https://pytorch.org/tutorials/prototype/python_extension_autoload.html
+def _autoload():
+    pass
+
+
 import torch
 from torch._dynamo.device_interface import register_interface_for_device
 from torch._inductor.codegen.common import (
@@ -28,8 +34,3 @@ register_backend_for_device(
 )
 register_device_op_overrides("nupu", NupuDeviceOpOverrides())
 register_interface_for_device("nupu", NupuDeviceInterface)
-
-
-# https://pytorch.org/tutorials/prototype/python_extension_autoload.html
-def _autoload():
-    pass
