@@ -2,6 +2,15 @@
 
 ## build
 
+install pytorch cpu from https://pytorch.org/
+
+```bash
+# currently needs nightly version
+pip3 install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu
+# stable
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+```
+
 ```bash
 # run torchgen
 bash yaml/torchgen.sh
