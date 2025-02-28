@@ -38,6 +38,8 @@ def current_device():
 
 
 def current_stream(device=None):
+    if device is None:
+        device = current_device()
     streamdata = torch_nupu._C._xpu_getCurrentStream(device)
     return torch_nupu._C._XpuStreamBase(
         stream_id=streamdata[0], device_index=streamdata[1], device_type=streamdata[2]
