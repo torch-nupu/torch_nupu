@@ -42,5 +42,6 @@ target_include_directories(torch_nupu PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(torch_nupu ${TORCH_LIBRARY})
 target_link_libraries(torch_nupu ${SYCL_LIBRARY})
 target_link_libraries(torch_nupu c10_nupu)
+target_link_libraries(torch_nupu ${OPENCL_LIBS})
 
 install(TARGETS torch_nupu)

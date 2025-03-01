@@ -21,6 +21,13 @@ message("SYCL_LIBRARY: ${SYCL_LIBRARY}")
 set(SYCL_COMPILER_VERSION 20990000)
 add_definitions("-DSYCL_COMPILER_VERSION=20990000")
 
+# FetchContent
+include(fetch.cmake)
+find_package(OpenCLHeaders REQUIRED)
+find_package(OpenCLICDLoader REQUIRED)
+find_package(OpenCLHeadersCpp REQUIRED)
+set(OPENCL_LIBS OpenCL::Headers OpenCL::OpenCL OpenCL::HeadersCpp)
+
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(pybind11 CONFIG)
 
