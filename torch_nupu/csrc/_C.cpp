@@ -2,9 +2,9 @@
 #include <torch/csrc/utils.h>
 #include <torch/csrc/utils/pybind.h>
 
-#include "xpu/Event.h"
-#include "xpu/Module.h"
-#include "xpu/Stream.h"
+// #include "xpu/Event.h"
+// #include "xpu/Module.h"
+// #include "xpu/Stream.h"
 
 namespace py = pybind11;
 
@@ -20,14 +20,14 @@ void nupu_init() {
 
 extern "C" C10_EXPORT PyObject* initNupuModule();
 PyObject* initNupuModule() {
-  THPUtils_addPyMethodDefs(methods, THXPModule_methods());
+  // THPUtils_addPyMethodDefs(methods, THXPModule_methods());
   static struct PyModuleDef nupumodule = {
       PyModuleDef_HEAD_INIT, "torch_nupu._C", nullptr, -1, methods.data()};
   module = PyModule_Create(&nupumodule);
 
-  torch::xpu::initModule(module);
-  THXPStream_init(module);
-  THXPEvent_init(module);
+  // torch::xpu::initModule(module);
+  // THXPStream_init(module);
+  // THXPEvent_init(module);
 
   auto m = py::reinterpret_borrow<py::module>(module);
   m.def("nupu_init", &nupu_init, "torch_nupu init");

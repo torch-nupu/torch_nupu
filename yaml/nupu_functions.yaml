@@ -5,8 +5,8 @@ use_out_as_primary: true
 device_guard: false
 supported:
   - copy_
-  - resize_
-  - set_
-  - add_.Tensor
-  - add.out
-  - abs.out
+  # - resize_
+  # - set_
+  # - add_.Tensor
+  # - add.out
+  # - abs.out

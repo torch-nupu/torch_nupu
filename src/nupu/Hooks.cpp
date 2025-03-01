@@ -1,5 +1,9 @@
 #include <ATen/detail/PrivateUse1HooksInterface.h>
 
+// // TODO(nupu): rm xpu
+// #include <ATen/detail/XPUHooksInterface.h>
+// #include <c10/xpu/XPUFunctions.h>
+
 namespace at::detail {
 namespace {
 
@@ -11,6 +15,9 @@ struct NupuHooksInterface : public at::PrivateUse1HooksInterface {
 
   void init() const final {
     // TODO(nupu): support NupuCachingAllocator
+
+    // // TODO(nupu): rm xpu
+    // getXPUHooks().init();
   }
 };
 
