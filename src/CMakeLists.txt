@@ -35,9 +35,9 @@ list(APPEND ATEN_NUPU_SRCS gen_functions/RegisterPrivateUse1.cpp)
 add_library(torch_nupu SHARED ${ATEN_NUPU_SRCS})
 
 # TODO(nupu): can we rm it?
-target_compile_definitions(torch_nupu PRIVATE "-DC10_USING_CUSTOM_GENERATED_MACROS")
+# target_compile_definitions(torch_nupu PRIVATE "-DC10_USING_CUSTOM_GENERATED_MACROS")
 
-target_include_directories(torch_nupu PRIVATE ${SYCL_INCLUDE_DIR})
+# target_include_directories(torch_nupu PRIVATE ${SYCL_INCLUDE_DIR})
 target_include_directories(torch_nupu PRIVATE ${TORCH_INCLUDE_DIRS})
 target_include_directories(torch_nupu PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(torch_nupu ${TORCH_LIBRARY})
