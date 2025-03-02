@@ -27,6 +27,8 @@ find_package(OpenCLHeaders REQUIRED)
 find_package(OpenCLICDLoader REQUIRED)
 find_package(OpenCLHeadersCpp REQUIRED)
 set(OPENCL_LIBS OpenCL::Headers OpenCL::OpenCL OpenCL::HeadersCpp)
+add_definitions("-DCL_TARGET_OPENCL_VERSION=300")
+add_definitions("-DCL_HPP_ENABLE_EXCEPTIONS")
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(pybind11 CONFIG)

@@ -6,8 +6,6 @@
 #include <c10/util/ArrayRef.h>
 #include <torch/library.h>
 
-#define CL_TARGET_OPENCL_VERSION 300
-#define CL_HPP_ENABLE_EXCEPTIONS
 #include <CL/opencl.hpp>
 
 namespace nupu {
@@ -39,8 +37,9 @@ struct NupuAllocator final : at::Allocator {
       return;
     }
     LOG(INFO) << "nupu_raw_deleter";
-    auto buffer = static_cast<std::shared_ptr<cl::Buffer>*>(ptr);
-    buffer->reset();
+    // TODO: restore
+    // auto buffer = static_cast<std::shared_ptr<cl::Buffer>*>(ptr);
+    // buffer->reset();
   }
 
   at::DeleterFnPtr raw_deleter() const override {

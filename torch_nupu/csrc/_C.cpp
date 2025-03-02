@@ -6,6 +6,8 @@
 // #include "xpu/Module.h"
 // #include "xpu/Stream.h"
 
+#include "nupu/Module.h"
+
 namespace py = pybind11;
 
 static PyObject* module;
@@ -20,7 +22,7 @@ void nupu_init() {
 
 extern "C" C10_EXPORT PyObject* initNupuModule();
 PyObject* initNupuModule() {
-  // THPUtils_addPyMethodDefs(methods, THXPModule_methods());
+  THPUtils_addPyMethodDefs(methods, THNPModule_methods());
   static struct PyModuleDef nupumodule = {
       PyModuleDef_HEAD_INIT, "torch_nupu._C", nullptr, -1, methods.data()};
   module = PyModule_Create(&nupumodule);
