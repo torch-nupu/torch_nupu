@@ -50,6 +50,7 @@ class NupuDeviceProperties:
     max_compute_units: int = 1
     gpu_eu_count: int = 512
     gpu_subslice_count: int = 64
+    multi_processor_count: int = 64
     max_work_group_size: int = 1024
     max_num_sub_groups: int = 1024
     sub_group_sizes: list[int] = [32]
