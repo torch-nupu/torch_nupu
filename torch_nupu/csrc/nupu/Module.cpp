@@ -9,8 +9,9 @@ PyObject* _get_current_stream(PyObject* self, PyObject* device_index) {
       THPUtils_checkLong(device_index), "invalid argument to current_stream");
   auto c10_device_index = THPUtils_unpackDeviceIndex(device_index);
   // TODO: support non-default and multi queues
-  auto queue = cl::CommandQueue::getDefault();
-  return PyLong_FromVoidPtr(queue.get());
+  auto queue =
+      std::make_shared<cl::CommandQueue>(cl::CommandQueue::getDefault());
+  return PyLong_FromVoidPtr(&queue);
   END_HANDLE_TH_ERRORS
 }
 
