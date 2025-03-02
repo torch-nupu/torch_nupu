@@ -65,3 +65,12 @@ def _get_device_properties(device=None):
 
 def get_device_properties(device=None):
     return _get_device_properties(device or current_device())
+
+
+def get_device_capability(device=None):
+    props = _get_device_properties(device or current_device())
+    return {
+        prop: getattr(props, prop)
+        for prop in dir(props)
+        if not prop.startswith(("__", "_pybind11_"))
+    }
