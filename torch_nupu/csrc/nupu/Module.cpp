@@ -10,7 +10,6 @@ PyObject* _get_current_stream(PyObject* self, PyObject* device_index) {
   auto c10_device_index = THPUtils_unpackDeviceIndex(device_index);
   // TODO: support non-default and multi queues
   auto queue = cl::CommandQueue::getDefault();
-  PyObject* output_tuple = PyTuple_New(3);
   return PyLong_FromVoidPtr(queue.get());
   END_HANDLE_TH_ERRORS
 }

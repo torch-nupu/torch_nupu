@@ -43,20 +43,10 @@ def current_stream(device=None):
     return torch_nupu._C._get_current_stream(device)
 
 
-@lru_cache(None)
-def get_device_capability(device=None) -> dict[str, Any]:
-    props = get_device_properties(device)
-    return {
-        prop: getattr(props, prop)
-        for prop in dir(props)
-        if not prop.startswith(("__", "_pybind11_"))
-    }
+def _get_device_properties(device=None):
+    # TODO: support API
+    pass
 
 
 def get_device_properties(device=None):
-    if device is None:
-        return torch_nupu._C._get_device_properties(current_device())
-    else:
-        if not isinstance(device, int | str):
-            device = device.index
-        return torch_nupu._C._get_device_properties(device)
+    return _get_device_properties(current_device())
