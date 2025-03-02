@@ -23,11 +23,11 @@ struct NupuAllocator final : at::Allocator {
     // xpu_data.unsafe_set_device(at::Device(at::DeviceType::PrivateUse1, 0));
     // return xpu_data;
 
-    auto buffer = std::make_shared<cl::Buffer>(
-        cl::Context::getDefault(), CL_MEM_READ_WRITE, nbytes);
+    auto buffer =
+        new cl::Buffer(cl::Context::getDefault(), CL_MEM_READ_WRITE, nbytes);
     return {
-        &buffer,
-        &buffer,
+        buffer,
+        buffer,
         raw_deleter(),
         at::Device(at::DeviceType::PrivateUse1, 0)};
   }
@@ -37,9 +37,8 @@ struct NupuAllocator final : at::Allocator {
       return;
     }
     LOG(INFO) << "nupu_raw_deleter";
-    // TODO: restore
-    // auto buffer = static_cast<std::shared_ptr<cl::Buffer>*>(ptr);
-    // buffer->reset();
+    auto buffer = static_cast<cl::Buffer*>(ptr);
+    delete buffer;
   }
 
   at::DeleterFnPtr raw_deleter() const override {

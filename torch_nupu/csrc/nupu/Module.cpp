@@ -9,9 +9,20 @@ PyObject* _get_current_stream(PyObject* self, PyObject* device_index) {
       THPUtils_checkLong(device_index), "invalid argument to current_stream");
   auto c10_device_index = THPUtils_unpackDeviceIndex(device_index);
   // TODO: support non-default and multi queues
-  auto queue =
-      std::make_shared<cl::CommandQueue>(cl::CommandQueue::getDefault());
-  return PyLong_FromVoidPtr(&queue);
+  auto current_stream = new cl::CommandQueue(cl::CommandQueue::getDefault());
+  LOG(INFO) << "current_stream: " << current_stream;
+
+  PyObject* capsule =
+      PyCapsule_New(current_stream, "clCommandQueue", [](PyObject* capsule) {
+        auto ptr = static_cast<cl::CommandQueue*>(
+            PyCapsule_GetPointer(capsule, "clCommandQueue"));
+        delete ptr;
+      });
+  if (!capsule) {
+    delete current_stream;
+    return nullptr;
+  }
+  return capsule;
   END_HANDLE_TH_ERRORS
 }
 
