@@ -38,15 +38,14 @@ def current_device():
 
 
 def current_stream(device=None):
-    if device is None:
-        device = current_device()
-    return torch_nupu._C._get_current_stream(device)
+    return torch_nupu._C._get_current_stream(device or current_device())
 
 
 def _get_device_properties(device=None):
     # TODO: support API
+    print(f"_get_device_properties device:{device}")
     pass
 
 
 def get_device_properties(device=None):
-    return _get_device_properties(current_device())
+    return _get_device_properties(device or current_device())
