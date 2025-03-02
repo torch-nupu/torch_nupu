@@ -17,7 +17,7 @@ namespace {
 struct NupuAllocator final : at::Allocator {
   NupuAllocator() = default;
   at::DataPtr allocate(size_t nbytes) override {
-    C10_LOG_API_USAGE_ONCE("NupuAllocator");
+    LOG(INFO) << "NupuAllocator::allocate";
 
     // TODO(nupu): rm xpu
     // auto* allocator = c10::GetAllocator(at::kXPU);
@@ -38,6 +38,7 @@ struct NupuAllocator final : at::Allocator {
     if (!ptr) {
       return;
     }
+    LOG(INFO) << "nupu_raw_deleter";
     auto buffer = static_cast<std::shared_ptr<cl::Buffer>*>(ptr);
     buffer->reset();
   }

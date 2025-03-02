@@ -15,7 +15,7 @@ at::Tensor& NupuNativeFunctions::copy_(
     at::Tensor& self,
     const at::Tensor& src,
     bool non_blocking) {
-  C10_LOG_API_USAGE_ONCE("NupuNativeFunctions::copy_");
+  LOG(INFO) << "NupuNativeFunctions::copy_";
   // return copy_xpu(self, src, non_blocking);
   return self;
 }
