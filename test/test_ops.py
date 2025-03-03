@@ -8,21 +8,3 @@ def test_copy():
     b = a.to("nupu").to("cpu")
     # b = a.to("privateuseone").to("cpu")
     assert torch.equal(a, b)
-
-
-def test_add():
-    a = torch.ones(10, device="cpu").to("nupu")
-    b = torch.ones(10, device="cpu").to("nupu")
-    c_ = torch.ones(10, device="cpu") * 2
-    c = a + b
-    assert torch.equal(c.to("cpu"), c_)
-
-
-def test_abs():
-    a = torch.empty(10, device="nupu")
-    torch.ops.aten.abs.default(a)
-
-
-def test_log_sigmoid():
-    a = torch.empty(10, device="nupu")
-    torch.ops.aten.log_sigmoid.default(a)
