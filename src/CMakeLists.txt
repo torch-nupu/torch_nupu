@@ -6,7 +6,6 @@ list(APPEND ATEN_NUPU_SRCS nupu/Hooks.cpp)
 list(APPEND ATEN_NUPU_SRCS nupu/Ops.cpp)
 list(APPEND ATEN_NUPU_SRCS nupu/Copy.cpp)
 
-
 # `torchgen.gen_backend_stubs`
 list(APPEND ATEN_NUPU_SRCS gen_functions/RegisterPrivateUse1.cpp)
 

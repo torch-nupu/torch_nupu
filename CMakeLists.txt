@@ -5,7 +5,6 @@ project(torch_nupu CXX C)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# TODO: can we pack libsycl.so into wheel ?
 set(RPATH_ORIGIN $ORIGIN)
 set(CMAKE_INSTALL_RPATH "${RPATH_ORIGIN}")
 

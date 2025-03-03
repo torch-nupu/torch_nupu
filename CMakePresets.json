@@ -13,15 +13,6 @@
         "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
         "CMAKE_LINKER_TYPE": "LLD"
       }
-    },
-    {
-      "name": "demo",
-      "inherits": "osx",
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "/repos/_work/llvm-dpcpp-sycl-web/build/bin/clang",
-        "CMAKE_CXX_COMPILER": "/repos/_work/llvm-dpcpp-sycl-web/build/bin/clang++",
-        "SYCL_ROOT": "/repos/_work/llvm-dpcpp-sycl-web/build"
-      }
     }
   ]
 }

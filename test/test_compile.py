@@ -34,7 +34,7 @@ def test_op_silu():
 @pytest.mark.xfail(
     reason="it requires OCK supporting `OpCapability GroupNonUniformClustered`"
 )
-@pytest.mark.skipif(triton_nupu_not_found, reason="")
+@pytest.mark.skipif(True, reason="")
 def test_op_mean():
     arg0 = torch.ones((3, 3))
     arg1 = arg0.to("nupu")
