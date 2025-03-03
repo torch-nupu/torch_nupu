@@ -26,13 +26,14 @@ at::Tensor& NupuNativeFunctions::copy_(
       src.device().type() == at::kPrivateUse1) {
     LOG(INFO) << "nupu -> cpu";
     auto buffer_src = static_cast<cl::Buffer*>(src.data_ptr());
-    cl::enqueueReadBuffer(*buffer_src, true, 0, 36, self.data_ptr());
+    cl::enqueueReadBuffer(*buffer_src, true, 0, self.nbytes(), self.data_ptr());
   } else if (
       self.device().type() == at::kPrivateUse1 &&
       src.device().type() == at::kCPU) {
     LOG(INFO) << "cpu -> nupu";
     auto buffer_dest = static_cast<cl::Buffer*>(self.data_ptr());
-    cl::enqueueWriteBuffer(*buffer_dest, true, 0, 36, src.data_ptr());
+    cl::enqueueWriteBuffer(
+        *buffer_dest, true, 0, self.nbytes(), src.data_ptr());
   } else if (
       self.device().type() == at::kCPU && src.device().type() == at::kCPU) {
     LOG(INFO) << "cpu -> cpu";
