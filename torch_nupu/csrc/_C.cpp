@@ -2,10 +2,6 @@
 #include <torch/csrc/utils.h>
 #include <torch/csrc/utils/pybind.h>
 
-// #include "xpu/Event.h"
-// #include "xpu/Module.h"
-// #include "xpu/Stream.h"
-
 #include "nupu/Module.h"
 
 namespace py = pybind11;
@@ -26,10 +22,6 @@ PyObject* initNupuModule() {
   static struct PyModuleDef nupumodule = {
       PyModuleDef_HEAD_INIT, "torch_nupu._C", nullptr, -1, methods.data()};
   module = PyModule_Create(&nupumodule);
-
-  // torch::xpu::initModule(module);
-  // THXPStream_init(module);
-  // THXPEvent_init(module);
 
   auto m = py::reinterpret_borrow<py::module>(module);
   m.def("nupu_init", &nupu_init, "torch_nupu init");

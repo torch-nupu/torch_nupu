@@ -10,7 +10,6 @@ PyObject* _get_current_stream(PyObject* self, PyObject* device_index) {
   auto c10_device_index = THPUtils_unpackDeviceIndex(device_index);
   // TODO: support non-default and multi queues
   auto current_stream = new cl::CommandQueue(cl::CommandQueue::getDefault());
-  LOG(INFO) << "current_stream: " << current_stream;
 
   PyObject* capsule =
       PyCapsule_New(current_stream, "clCommandQueue", [](PyObject* capsule) {

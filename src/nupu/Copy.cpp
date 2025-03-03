@@ -16,7 +16,7 @@ at::Tensor& NupuNativeFunctions::copy_(
     const at::Tensor& src,
     bool non_blocking) {
   LOG(INFO) << "NupuNativeFunctions::copy_";
-  // return copy_xpu(self, src, non_blocking);
+  // TODO: support copy_
   return self;
 }
 

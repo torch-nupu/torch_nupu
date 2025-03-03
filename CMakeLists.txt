@@ -11,16 +11,6 @@ set(CMAKE_INSTALL_RPATH "${RPATH_ORIGIN}")
 
 option(WITH_TEST "building with cpp test" TRUE)
 
-# list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
-# find_package(SYCLToolkit REQUIRED)
-# if(NOT SYCL_FOUND)
-#   message(FATAL_ERROR "SYCLToolkit is not found.")
-# endif()
-# message("SYCL_LIBRARY: ${SYCL_LIBRARY}")
-# # SYCL_COMPILER_VERSION > `20250000`
-# set(SYCL_COMPILER_VERSION 20990000)
-# add_definitions("-DSYCL_COMPILER_VERSION=20990000")
-
 # FetchContent
 include(fetch.cmake)
 find_package(OpenCLHeaders REQUIRED)

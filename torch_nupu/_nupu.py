@@ -46,7 +46,7 @@ class NupuDeviceProperties:
     platform_name: str = "ComputeAortaOpenCL"
     type: str = "gpu"
     driver_version: str = "4.0"
-    total_memory = 2048 * 1024 * 1024  # 2048MB
+    total_memory: int = 2048 * 1024 * 1024  # 2048MB
     max_compute_units: int = 1
     gpu_eu_count: int = 512
     gpu_subslice_count: int = 64

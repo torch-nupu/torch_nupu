@@ -17,15 +17,8 @@ struct NupuAllocator final : at::Allocator {
   at::DataPtr allocate(size_t nbytes) override {
     LOG(INFO) << "NupuAllocator::allocate - nbytes: " << nbytes;
 
-    // TODO(nupu): rm xpu
-    // auto* allocator = c10::GetAllocator(at::kXPU);
-    // at::DataPtr xpu_data = allocator->allocate(nbytes);
-    // xpu_data.unsafe_set_device(at::Device(at::DeviceType::PrivateUse1, 0));
-    // return xpu_data;
-
     auto buffer =
         new cl::Buffer(cl::Context::getDefault(), CL_MEM_READ_WRITE, nbytes);
-    LOG(INFO) << "buffer: " << buffer;
     return {
         buffer,
         buffer,
@@ -43,21 +36,14 @@ struct NupuAllocator final : at::Allocator {
   }
 
   at::DeleterFnPtr raw_deleter() const override {
-    // TODO(nupu): rm xpu
-    // auto* allocator = c10::GetAllocator(at::kXPU);
-    // return allocator->raw_deleter();
-
     return &nupu_raw_deleter;
   }
 
   void copy_data(void* dest, const void* src, std::size_t count) const final {
-    // TODO(nupu): rm xpu
-    // auto* allocator = c10::GetAllocator(at::kXPU);
-    // return allocator->copy_data(dest, src, count);
-
-    auto buffer_dest = static_cast<const std::shared_ptr<cl::Buffer>*>(dest);
-    auto buffer_src = static_cast<const std::shared_ptr<cl::Buffer>*>(src);
-    cl::enqueueCopyBuffer(**buffer_src, **buffer_dest, 0, 0, count);
+    auto buffer_dest = static_cast<cl::Buffer*>(dest);
+    auto buffer_src = static_cast<const cl::Buffer*>(src);
+    cl::enqueueCopyBuffer(*buffer_src, *buffer_dest, 0, 0, count);
+    // TODO: sync ?
   }
 };
 
