@@ -1,8 +1,5 @@
 #include <ATen/detail/PrivateUse1HooksInterface.h>
 
-#include <ATen/detail/XPUHooksInterface.h>
-#include <c10/xpu/XPUFunctions.h>
-
 namespace at::detail {
 namespace {
 
@@ -12,10 +9,7 @@ struct NupuHooksInterface : public at::PrivateUse1HooksInterface {
   NupuHooksInterface(NupuHooksArgs) {}
   ~NupuHooksInterface() override = default;
 
-  void init() const final {
-    // TODO(nupu): rm xpu
-    getXPUHooks().init();
-  }
+  void init() const final {}
 };
 
 C10_DECLARE_REGISTRY(

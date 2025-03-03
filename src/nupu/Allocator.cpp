@@ -6,6 +6,8 @@
 #include <c10/util/ArrayRef.h>
 #include <torch/library.h>
 
+#include <CL/opencl.hpp>
+
 namespace nupu {
 
 namespace {
@@ -13,20 +15,35 @@ namespace {
 struct NupuAllocator final : at::Allocator {
   NupuAllocator() = default;
   at::DataPtr allocate(size_t nbytes) override {
-    auto* allocator = c10::GetAllocator(at::kXPU);
-    at::DataPtr xpu_data = allocator->allocate(nbytes);
-    xpu_data.unsafe_set_device(at::Device(at::DeviceType::PrivateUse1, 0));
-    return xpu_data;
+    LOG(INFO) << "NupuAllocator::allocate - nbytes: " << nbytes;
+
+    auto buffer =
+        new cl::Buffer(cl::Context::getDefault(), CL_MEM_READ_WRITE, nbytes);
+    return {
+        buffer,
+        buffer,
+        raw_deleter(),
+        at::Device(at::DeviceType::PrivateUse1, 0)};
+  }
+
+  static void nupu_raw_deleter(void* ptr) {
+    if (!ptr) {
+      return;
+    }
+    LOG(INFO) << "nupu_raw_deleter";
+    auto buffer = static_cast<cl::Buffer*>(ptr);
+    delete buffer;
   }
 
   at::DeleterFnPtr raw_deleter() const override {
-    auto* allocator = c10::GetAllocator(at::kXPU);
-    return allocator->raw_deleter();
+    return &nupu_raw_deleter;
   }
 
   void copy_data(void* dest, const void* src, std::size_t count) const final {
-    auto* allocator = c10::GetAllocator(at::kXPU);
-    return allocator->copy_data(dest, src, count);
+    auto buffer_dest = static_cast<cl::Buffer*>(dest);
+    auto buffer_src = static_cast<const cl::Buffer*>(src);
+    cl::enqueueCopyBuffer(*buffer_src, *buffer_dest, 0, 0, count);
+    // TODO: sync ?
   }
 };
 

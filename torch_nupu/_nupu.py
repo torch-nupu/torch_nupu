@@ -38,28 +38,40 @@ def current_device():
 
 
 def current_stream(device=None):
-    if device is None:
-        device = current_device()
-    streamdata = torch_nupu._C._xpu_getCurrentStream(device)
-    return torch_nupu._C._XpuStreamBase(
-        stream_id=streamdata[0], device_index=streamdata[1], device_type=streamdata[2]
-    )
+    return torch_nupu._C._get_current_stream(device or current_device())
 
 
-@lru_cache(None)
-def get_device_capability(device=None) -> dict[str, Any]:
-    props = get_device_properties(device)
+class NupuDeviceProperties:
+    name: str = "refsi"
+    platform_name: str = "ComputeAortaOpenCL"
+    type: str = "gpu"
+    driver_version: str = "4.0"
+    total_memory: int = 2048 * 1024 * 1024  # 2048MB
+    max_compute_units: int = 1
+    gpu_eu_count: int = 512
+    gpu_subslice_count: int = 64
+    multi_processor_count: int = 64
+    max_work_group_size: int = 1024
+    max_num_sub_groups: int = 1024
+    sub_group_sizes: list[int] = [32]
+    has_fp16: int = 1
+    has_fp64: int = 1
+    has_atomic64: int = 1
+
+
+def _get_device_properties(device=None):
+    # TODO: support parse from opencl api
+    return NupuDeviceProperties()
+
+
+def get_device_properties(device=None):
+    return _get_device_properties(device or current_device())
+
+
+def get_device_capability(device=None):
+    props = _get_device_properties(device or current_device())
     return {
         prop: getattr(props, prop)
         for prop in dir(props)
         if not prop.startswith(("__", "_pybind11_"))
     }
-
-
-def get_device_properties(device=None):
-    if device is None:
-        return torch_nupu._C._get_device_properties(current_device())
-    else:
-        if not isinstance(device, int | str):
-            device = device.index
-        return torch_nupu._C._get_device_properties(device)

@@ -20,5 +20,5 @@ class NupuDeviceOpOverrides(DeviceOpOverrides):
     def import_get_raw_stream_as(self, name: str) -> str:
         return f"""
 def {name}(device_index):
-    return torch.nupu.current_stream(device_index).sycl_queue
+    return torch.nupu.current_stream(device_index)
 """

@@ -11,15 +11,14 @@ set(CMAKE_INSTALL_RPATH "${RPATH_ORIGIN}")
 
 option(WITH_TEST "building with cpp test" TRUE)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
-find_package(SYCLToolkit REQUIRED)
-if(NOT SYCL_FOUND)
-  message(FATAL_ERROR "SYCLToolkit is not found.")
-endif()
-message("SYCL_LIBRARY: ${SYCL_LIBRARY}")
-# SYCL_COMPILER_VERSION > `20250000`
-set(SYCL_COMPILER_VERSION 20990000)
-add_definitions("-DSYCL_COMPILER_VERSION=20990000")
+# FetchContent
+include(fetch.cmake)
+find_package(OpenCLHeaders REQUIRED)
+find_package(OpenCLICDLoader REQUIRED)
+find_package(OpenCLHeadersCpp REQUIRED)
+set(OPENCL_LIBS OpenCL::Headers OpenCL::OpenCL OpenCL::HeadersCpp)
+add_definitions("-DCL_TARGET_OPENCL_VERSION=300")
+add_definitions("-DCL_HPP_ENABLE_EXCEPTIONS")
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(pybind11 CONFIG)
