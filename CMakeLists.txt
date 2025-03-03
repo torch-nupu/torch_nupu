@@ -25,7 +25,7 @@ find_package(pybind11 CONFIG)
 if(NOT TORCH_PATH)
   execute_process(
     COMMAND
-    ${Python3_EXECUTABLE} -c "import torch; from pathlib import Path; print(Path(torch.__file__).parent, end='')"
+    ${Python3_EXECUTABLE} -I -c "import torch; from pathlib import Path; print(Path(torch.__file__).parent, end='')"
     OUTPUT_VARIABLE
     TORCH_PATH)
   endif()
