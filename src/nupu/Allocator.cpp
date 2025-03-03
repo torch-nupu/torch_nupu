@@ -25,6 +25,7 @@ struct NupuAllocator final : at::Allocator {
 
     auto buffer =
         new cl::Buffer(cl::Context::getDefault(), CL_MEM_READ_WRITE, nbytes);
+    LOG(INFO) << "buffer: " << buffer;
     return {
         buffer,
         buffer,
