@@ -7,7 +7,6 @@
 #include <gen_functions/PrivateUse1NativeFunctions.h>
 
 using namespace at;
-using namespace at::xpu;
 
 namespace at_nupu {
 

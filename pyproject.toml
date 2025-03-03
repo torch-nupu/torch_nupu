@@ -22,7 +22,6 @@ git_describe_command = "git describe --dirty --tags --long --match 'v*[0-9]*'"
 target-version = "py310"
 line-length = 88
 src = ["torch_nupu"]
-exclude = ["torch-xpu-ops", "pytorch"]
 
 [tool.ruff.format]
 docstring-code-format = true
