@@ -10,8 +10,8 @@ namespace {
 void nupu_cpu_fallback(
     const c10::OperatorHandle& op,
     torch::jit::Stack* stack) {
-  printf(" -- nupu_cpu_fallback, op: %s \n", op.operator_name().name.c_str());
-  at::native::cpu_fallback(op, stack, /*error_on_views=*/true);
+  LOG(INFO) << "nupu_cpu_fallback, op: " << op.operator_name().name;
+  at::native::cpu_fallback(op, stack, true);
 }
 
 TORCH_LIBRARY_IMPL(_, PrivateUse1, m) {
