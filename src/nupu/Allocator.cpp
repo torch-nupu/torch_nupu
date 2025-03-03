@@ -15,7 +15,7 @@ namespace {
 struct NupuAllocator final : at::Allocator {
   NupuAllocator() = default;
   at::DataPtr allocate(size_t nbytes) override {
-    LOG(INFO) << "NupuAllocator::allocate";
+    LOG(INFO) << "NupuAllocator::allocate - nbytes: " << nbytes;
 
     // TODO(nupu): rm xpu
     // auto* allocator = c10::GetAllocator(at::kXPU);
