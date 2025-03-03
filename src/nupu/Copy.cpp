@@ -15,9 +15,8 @@ at::Tensor& NupuNativeFunctions::copy_(
     at::Tensor& self,
     const at::Tensor& src,
     bool non_blocking) {
-  LOG(INFO) << "NupuNativeFunctions::copy_";
   // TODO: support copy_
-
+  LOG(INFO) << "NupuNativeFunctions::copy_";
   LOG(INFO) << "self.data_ptr: " << self.data_ptr();
   LOG(INFO) << "src.src: " << src.data_ptr();
   LOG(INFO) << "self.device: " << self.device().str();
