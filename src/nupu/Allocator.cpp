@@ -16,9 +16,9 @@ struct NupuAllocator final : at::Allocator {
   NupuAllocator() = default;
   at::DataPtr allocate(size_t nbytes) override {
     LOG(INFO) << "NupuAllocator::allocate - nbytes: " << nbytes;
-
     auto buffer =
         new cl::Buffer(cl::Context::getDefault(), CL_MEM_READ_WRITE, nbytes);
+    LOG(INFO) << "buffer: " << buffer;
     return {
         buffer,
         buffer,
