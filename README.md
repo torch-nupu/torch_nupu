@@ -16,7 +16,7 @@ pip3 install torch torchvision torchaudio --index-url https://download.pytorch.o
 bash yaml/torchgen.sh
 
 # check `CMakePresets.json` and use a right preset
-cmake --preset demo
+cmake --preset osx
 cmake --build $PWD/build -t install
 ```
 

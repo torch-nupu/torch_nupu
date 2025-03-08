@@ -1,4 +1,7 @@
 #include <ATen/detail/PrivateUse1HooksInterface.h>
+#include <c10/util/Logging.h>
+
+#include <CL/opencl.hpp>
 
 namespace at::detail {
 namespace {
@@ -9,7 +12,19 @@ struct NupuHooksInterface : public at::PrivateUse1HooksInterface {
   NupuHooksInterface(NupuHooksArgs) {}
   ~NupuHooksInterface() override = default;
 
-  void init() const final {}
+  void init() const final {
+#if __APPLE__
+    auto platform = cl::Platform::getDefault();
+    cl_context_properties properties[3] = {
+        CL_CONTEXT_PLATFORM, (cl_context_properties)platform(), 0};
+    cl::Context::setDefault(cl::Context(CL_DEVICE_TYPE_GPU, properties));
+#else
+    // TODO: support config default device from args/env
+    cl::Context::setDefault(cl::Context(CL_DEVICE_TYPE_GPU));
+#endif
+    auto d = cl::Device::getDefault();
+    LOG(INFO) << "default opencl device: " << d.getInfo<CL_DEVICE_NAME>();
+  }
 };
 
 C10_DECLARE_REGISTRY(
