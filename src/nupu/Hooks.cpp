@@ -12,8 +12,15 @@ struct NupuHooksInterface : public at::PrivateUse1HooksInterface {
   ~NupuHooksInterface() override = default;
 
   void init() const final {
+#if __APPLE__
+    auto platform = cl::Platform::getDefault();
+    cl_context_properties properties[3] = {
+        CL_CONTEXT_PLATFORM, (cl_context_properties)platform(), 0};
+    cl::Context::setDefault(cl::Context(CL_DEVICE_TYPE_GPU, properties));
+#else
     // TODO: support config default device from args/env
     cl::Context::setDefault(cl::Context(CL_DEVICE_TYPE_GPU));
+#endif
   }
 };
 
