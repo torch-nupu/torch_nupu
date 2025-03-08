@@ -48,4 +48,11 @@ at::Tensor& NupuNativeFunctions::copy_(
   return self;
 }
 
+at::Tensor NupuNativeFunctions::_copy_from_and_resize(
+    const at::Tensor& self,
+    const at::Tensor& dst) {
+  // TODO: support _copy_from_and_resize
+  return dst.copy_(self, false);
+}
+
 } // namespace at_nupu
