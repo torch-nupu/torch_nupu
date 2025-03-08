@@ -1,5 +1,7 @@
 #include <ATen/detail/PrivateUse1HooksInterface.h>
 
+#include <CL/opencl.hpp>
+
 namespace at::detail {
 namespace {
 
@@ -9,7 +11,10 @@ struct NupuHooksInterface : public at::PrivateUse1HooksInterface {
   NupuHooksInterface(NupuHooksArgs) {}
   ~NupuHooksInterface() override = default;
 
-  void init() const final {}
+  void init() const final {
+    // TODO: support config default device from args/env
+    cl::Context::setDefault(cl::Context(CL_DEVICE_TYPE_GPU));
+  }
 };
 
 C10_DECLARE_REGISTRY(
