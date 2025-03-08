@@ -32,7 +32,9 @@ struct NupuAllocator final : at::Allocator {
     }
     LOG(INFO) << "nupu_raw_deleter";
     auto buffer = static_cast<cl::Buffer*>(ptr);
+    LOG(INFO) << "buffer: " << buffer;
     delete buffer;
+    LOG(INFO) << "fin nupu_raw_deleter";
   }
 
   at::DeleterFnPtr raw_deleter() const override {
