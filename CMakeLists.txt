@@ -6,6 +6,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(RPATH_ORIGIN $ORIGIN)
+if(APPLE)
+  set(RPATH_ORIGIN @loader_path)
+endif()
 set(CMAKE_INSTALL_RPATH "${RPATH_ORIGIN}")
 
 option(WITH_TEST "building with cpp test" TRUE)
@@ -23,12 +26,14 @@ find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(pybind11 CONFIG)
 
 if(NOT TORCH_PATH)
+  set(ENV{TORCH_DEVICE_BACKEND_AUTOLOAD} 0)
   execute_process(
     COMMAND
-    ${Python3_EXECUTABLE} -I -c "import torch; from pathlib import Path; print(Path(torch.__file__).parent, end='')"
+    ${Python3_EXECUTABLE} -c "import torch; from pathlib import Path; print(Path(torch.__file__).parent, end='')"
     OUTPUT_VARIABLE
     TORCH_PATH)
-  endif()
+  unset(ENV{TORCH_DEVICE_BACKEND_AUTOLOAD})
+endif()
 if(NOT TORCH_PATH)
   message(FATAL_ERROR "set TORCH_PATH failed.")
 endif()
