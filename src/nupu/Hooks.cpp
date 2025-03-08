@@ -1,4 +1,5 @@
 #include <ATen/detail/PrivateUse1HooksInterface.h>
+#include <c10/util/Logging.h>
 
 #include <CL/opencl.hpp>
 
@@ -21,6 +22,8 @@ struct NupuHooksInterface : public at::PrivateUse1HooksInterface {
     // TODO: support config default device from args/env
     cl::Context::setDefault(cl::Context(CL_DEVICE_TYPE_GPU));
 #endif
+    auto d = cl::Device::getDefault();
+    LOG(INFO) << "default opencl device: " << d.getInfo<CL_DEVICE_NAME>();
   }
 };
 
