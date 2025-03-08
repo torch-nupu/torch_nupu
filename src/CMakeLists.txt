@@ -13,7 +13,9 @@ add_library(torch_nupu SHARED ${ATEN_NUPU_SRCS})
 
 target_include_directories(torch_nupu PRIVATE ${TORCH_INCLUDE_DIRS})
 target_include_directories(torch_nupu PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(torch_nupu ${TORCH_LIBRARY})
-target_link_libraries(torch_nupu ${OPENCL_LIBS})
+# -lc10 -ltorch -ltorch_cpu -ltorch_python
+target_link_directories(torch_nupu PUBLIC "${TORCH_PATH}/lib")
+target_link_libraries(torch_nupu PUBLIC c10 torch torch_cpu torch_python)
+target_link_libraries(torch_nupu PUBLIC ${OPENCL_LIBS})
 
 install(TARGETS torch_nupu)
